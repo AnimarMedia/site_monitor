@@ -1,0 +1,50 @@
+app:
+  update: 120   #time to rechecking hosts (sec)
+
+telegram:
+  token: 6093255456:AAGeWvKvJAoo2ggxEEMkcXGx1A321X0Pw0A  #Token for you Telegram BOT
+  group: 79335259     # Telegram you ID or group ID (use command for BOT /start
+
+http:
+  repeat: 5   # number of rechecks
+  timeout: 60  # HTTP(s) timeout (sec)
+  delay: 1.5 # HTTP(s) time delay (sec)
+  sites:
+    - url: https://in-touch.space/   # hosts for monitoring over HTTP or HTTPS with basic auth
+      elements:
+        - game   # content(element) in the source code of the site page
+    - url: https://in-touch.space/game # hosts for monitoring over HTTP or HTTPS
+    - url: https://animarmedia.com/
+    - url: https://duun.ru/
+    - url: https://tuvamusic.ru/
+    - url: https://babballet.info/
+    - url: https://admin.snootch.ru/
+    - url: https://admin.your-quest.ru/
+    - url: https://admin.your-quest.com/
+    - url: https://your-quest.com/
+    - url: https://your-quest.ru/
+    - url: https://arquest.ru/
+    - url: https://ats54.su
+    - url: https://auction54.ru
+    - url: https://beautifulfit.ru/
+    - url: https://consult54.ru
+    - url: https://cosmobodyjd.ru
+    - url: https://deko-nsk.ru
+    - url: https://fructiata.ru
+    - url: https://gabbenni.ru
+    - url: https://ginza.su/
+    - url: https://glue54.ru
+    - url: https://ilovebreakcore.ru
+    - url: https://insanclinic.ru
+    - url: https://jnp.su
+    - url: https://khaosokriverhomeresort.com
+    - url: https://konevalexander.ru
+    - url: https://kudo54.ru
+    - url: https://lyubel-eco.ru/
+    - url: https://mrxz.ru
+    - url: https://polmari.ru
+    - url: https://smettender.ru
+    - url: https://stripmelnichuk.ru
+    - url: https://upotoys.ru
+    - url: https://yurahorse.ru
+    - url: https://zmb-xr.ru
