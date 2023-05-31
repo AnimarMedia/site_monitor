@@ -54,29 +54,22 @@ func main() {
 	bot.Debug = false
 
 	// Running HTTP checker
+	siteIndex := 0
+	siteTotal := len(config.Http.Sites)
+
 	for _, site := range config.Http.Sites {
-		go httpCheck(config.App.Update, bot, config.Telegram.Group, site, config.Http.Timeout, config.Http.Repeat, config.Http.Delay)
+		siteIndex++
+		go httpCheck(config.App.Update, bot, config.Telegram.Group, site, config.Http.Timeout, config.Http.Repeat, config.Http.Delay, siteIndex, siteTotal)
 	}
 
-	botUpdate(bot, config.Http.Sites)
-}
-
-func NewMessage(chatID int64, text string) MessageConfig {
-	return MessageConfig{
-		BaseChat: BaseChat{
-			ChatID:           chatID,
-			ReplyToMessageID: 0,
-		},
-		Text:                  text,
-		DisableWebPagePreview: true,
-	}
+	botUpdate(bot, config.Http.Sites, config)
 }
 
 // Telegram bot for listening to incoming commands
-func botUpdate(bot *tgbotapi.BotAPI, sites []struct {
+func botUpdate(bot *tgbotapi.BotAPI, sites []struct{
 	Url      string
 	Elements []string
-}) {
+}, config Config) {
 
 	// Create string for HTTP(s) monitoring sites
 	sitesString := ""
@@ -97,8 +90,7 @@ func botUpdate(bot *tgbotapi.BotAPI, sites []struct {
 		if !update.Message.IsCommand() { // ignore any non-command Messages
 			continue
 		}
-		// msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
-		msg := NewMessage(update.Message.Chat.ID, "")
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 		msg.DisableWebPagePreview = true
 
 		switch update.Message.Command() {
@@ -106,6 +98,11 @@ func botUpdate(bot *tgbotapi.BotAPI, sites []struct {
 			msg.Text = "Hi, I am a monitoring bot! Your (group) ID = " + strconv.FormatInt(update.Message.Chat.ID, 10)
 		case "list":
 			msg.Text = "Listed HTTP(s) monitoring sites:\n" + sitesString
+		case "check":
+			msg.Text = "Domain check:"
+			for _, site := range config.Http.Sites {
+				go httpCheckOnline(config.App.Update, bot, config.Telegram.Group, site, config.Http.Timeout, config.Http.Repeat, config.Http.Delay)
+			}
 		default:
 			msg.Text = "I don't know that command"
 		}

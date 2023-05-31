@@ -1,7 +1,8 @@
 version: "3.9"
 services:
   app:
-    image: AnimarMedia/site_monitor
     restart: always
+    build:
+      context: .
     volumes:
       - ./conf:/app/conf:ro

@@ -12,10 +12,10 @@ import (
 )
 
 // Checking the availability of the site via the HTTP protocol
-func httpCheck(update uint16, bot *tgbotapi.BotAPI, group int64, site struct {
+func httpCheckOnline(update uint16, bot *tgbotapi.BotAPI, group int64, site struct {
 	Url      string
 	Elements []string
-}, timeout uint8, repeat uint8, delay float64, siteIndex int, siteTotal int) {
+}, timeout uint8, repeat uint8, delay float64) {
 	client := http.Client{
 		Timeout: time.Duration(timeout) * time.Second,
 	}
@@ -52,12 +52,12 @@ func httpCheck(update uint16, bot *tgbotapi.BotAPI, group int64, site struct {
 				if elapsed >= delay {
 					msg := tgbotapi.NewMessage(group, "["+currentTime.Format("2006.01.02 15:04:05")+"] "+site.Url+" [ONLINE] "+strconv.FormatFloat(elapsed, 'f', 3, 32)+" sec.")
 					msg.DisableWebPagePreview = true
-					//bot.Send(msg)
+					bot.Send(msg)
 					break
 				} else {
 					msg := tgbotapi.NewMessage(group, "["+currentTime.Format("2006.01.02 15:04:05")+"] "+site.Url+" [ONLINE] "+strconv.FormatFloat(elapsed, 'f', 3, 32)+" sec.")
 					msg.DisableWebPagePreview = true
-					//bot.Send(msg)
+					bot.Send(msg)
 					break
 				}
 
